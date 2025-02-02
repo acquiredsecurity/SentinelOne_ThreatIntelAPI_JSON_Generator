@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Intel - IOC JSON Generator & Webhook</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif; 
+            margin: 20px;
+            padding: 20px;
+            max-width: 700px;
+            background-color: #1A0033; /* SentinelOne Purple */
+            color: white;
+        }
+        label {
+            font-weight: 700; /* Extra bold */
+            color: white; /* Gold for contrast */
+            display: block;
+            margin-top: 12px;
+            text-transform: uppercase; /* Makes labels stand out */
+            letter-spacing: 0.5px;
+        }
+        .optional-fields-title {
+            color: black;  /* Makes "Optional Fields" black */
+        }   
+        
+        .required {
+            color: red;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .header-title {
+            color: #B200FF; /* Bright SentinelOne Purple */
+            font-weight: 700; /* Bolder text */
+            text-align: left;
+            font-size: 28px; /* Slightly bigger */
+            text-transform: uppercase; /* Makes the text more pronounced */
+            letter-spacing: 1px; /* Adds spacing for emphasis */
+}
+                .optional-fields-button {
+            display: block;
+            width: 100%;
+            margin-top: 15px; /* Adds space between previous fields */
+}
+
+        input, select, textarea {
+            width: 100%; /* Makes all fields full width */
+            max-width: 400px; /* Keeps all fields the same size */
+            padding: 8px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+        button {
+            margin-top: 10px;
+            padding: 12px 16px;
+            cursor: pointer;
+            background-color: #B200FF; /* SentinelOne Purple */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 700; /* Extra bold */
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s ease-in-out;
+        }
+        button:hover {
+            background-color: #9400D3; /* Darker purple on hover */
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: black;
+        }
+        #optionalFields {
+            display: none; /* Hide optional fields by default */
+        }
+         /* ADD THE FIXED SELECT STYLES BELOW */
+    select {
+        width: 100%; /* Matches text input width */
+        max-width: 400px; /* Keeps dropdowns same size */
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+        appearance: none; /* Removes default OS styling */
+    }
+    input, select, textarea {
+    width: 100%;
+    max-width: 400px; /* Ensures all fields are the same width */
+}
+    </style>
+</head>
+<body>
+    <img src="SentinelOne_Logo_RGB_1c_WHT.png" 
+         alt="SentinelOne Logo" 
+         style="width: 250px; display: block; margin-left: 0 auto; padding-bottom: 20px;">
+    <h2 class="header-title">Threat Intel - IOC JSON Generator & Webhook</h2>
+    <div>
+
+        <label for="type">IOC Type <span class="required">*</span>:</label>
+        <select id="type">
+            <option value="">Select IOC Type</option>
+            <option value="DNS">DNS</option>
+            <option value="IPV4">IPV4</option>
+            <option value="IPV6">IPV6</option>
+            <option value="MD5">MD5</option>
+            <option value="SHA1">SHA1</option>
+            <option value="SHA256">SHA256</option>
+            <option value="URL">URL</option>
+        </select>
+
+
+        <label for="valueMulti">IOC Values (One per Line):</label>
+        <textarea id="valueMulti" rows="5"></textarea>
+
+        <label for="source">Source <span class="required">*</span>:</label>
+        <input type="text" id="source">
+
+        <div class="optional-fields-button">
+            <button type="button" onclick="toggleOptionalFields()">Show/Hide Optional Fields</button>
+        </div>
+
+        <div id="optionalFields">
+            <h4 class="optional-fields-title">Optional Fields</h4>
+            
+            <label for="severity">Severity (1-7):</label>
+            <select id="severity">
+                <option value="">Select Severity</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select>
+
+            <label for="campaignNames">Campaign Names:</label>
+            <input type="text" id="campaignNames">
+
+            <label for="category">Category:</label>
+            <input type="text" id="category">
+
+            <label for="creationTime">Creation Time (YYYY-MM-DDTHH:MM:SSZ):</label>
+            <input type="datetime-local" id="creationTime" min="2000-01-01T00:00" max="2099-12-31T23:59">
+            
+
+            <label for="creator">Creator:</label>
+            <input type="text" id="creator">
+
+            <label for="description">Description:</label>
+            <textarea id="description"></textarea>
+
+            <label for="externalId">External ID:</label>
+            <input type="text" id="externalId">
+
+            <label for="intrusionSets">Intrusion Sets:</label>
+            <input type="text" id="intrusionSets">
+
+            <label for="labels">Labels:</label>
+            <input type="text" id="labels">
+
+            <label for="malwareNames">Malware Names:</label>
+            <input type="text" id="malwareNames">
+
+            <label for="metadata">Metadata:</label>
+            <input type="text" id="metadata">
+
+            <label for="method">Method:</label>
+            <input type="text" id="method">
+
+            <label for="mitreTactic">MITRE Tactic:</label>
+            <input type="text" id="mitreTactic">
+
+            <label for="name">Name:</label>
+            <input type="text" id="name">
+
+            <label for="originalRiskScore">Original Risk Score (0-100):</label>
+            <input type="number" id="originalRiskScore" min="0" max="100">
+
+            <label for="pattern">Pattern:</label>
+            <input type="text" id="pattern">
+
+            <label for="patternType">Pattern Type:</label>
+            <input type="text" id="patternType">
+
+            <label for="reference">Reference:</label>
+            <input type="text" id="reference">
+
+            <label for="threatActors">Threat Actors:</label>
+            <input type="text" id="threatActors">
+
+            <label for="threatActorTypes">Threat Actor Types:</label>
+            <input type="text" id="threatActorTypes">
+
+            <label for="validUntil">Valid Until (YYYY-MM-DDTHH:MM:SSZ):</label>
+            <input type="datetime-local" id="validUntil" min="2000-01-01T00:00" max="2099-12-31T23:59">
+        </div>
+    </div>
+
+    <button onclick="generateJSON()">Generate JSON</button>
+    <button onclick="copyJSON()">Copy JSON</button>
+    <button onclick="downloadJSON()">Download JSON</button>
+    <button onclick="clearForm()">Clear Form</button>
+
+    <h3>Generated JSON:</h3>
+    <pre id="output">JSON will appear here...</pre>
+
+    <button id="submitWebhook">Submit to Webhook</button>
+
+    <script>
+        function toggleOptionalFields() {
+            $("#optionalFields").toggle();
+        }
+
+        function generateJSON() {
+    let iocs = [];
+    
+    let commonFields = {};
+    let missingFields = [];
+
+    $("input, select, textarea").each(function() {
+        let key = $(this).attr("id");
+        let value = $(this).val().trim();
+
+        // Convert Valid Until & Creation Time to ISO 8601 format if not empty
+        if ((key === "validUntil" || key === "creationTime") && value !== "") {
+            let date = new Date(value);
+            if (!isNaN(date.getTime())) {
+                value = date.toISOString(); // Converts to "YYYY-MM-DDTHH:MM:SSZ"
+            } else {
+                alert(`${key} is not a valid date format.`);
+                return;
+            }
+        }
+
+
+        // Ensure required fields are not empty
+        if ((key === "type" || key === "source") && value === "") {
+            missingFields.push(key);
+        }
+
+        // Ensure originalRiskScore is within 0-100 range
+        if (key === "originalRiskScore" && value !== "") {
+            value = parseInt(value);
+            if (isNaN(value) || value < 0 || value > 100) {
+                alert("Original Risk Score must be a number between 0 and 100.");
+                return;
+            }
+        }
+
+        // Convert IOC Type to uppercase for API
+        if (key === "type") {
+            value = value.toUpperCase();
+        }
+
+        if (value && key !== "valueMulti" && key !== "csvFile") {
+            commonFields[key] = value;
+        }
+    });
+
+    // If required fields are missing, show an alert and stop JSON generation
+    if (missingFields.length > 0) {
+        alert("The following fields are required: " + missingFields.join(", "));
+        return;
+    }
+
+    // Always process multiple values
+    let values = $("#valueMulti").val().trim().split(/\r?\n/).map(v => v.trim()).filter(v => v);
+    values.forEach(value => {
+        iocs.push({ ...commonFields, "value": value });
+    });
+
+    $("#output").text(JSON.stringify(iocs, null, 4));
+}
+
+
+
+        function copyJSON() {
+            const jsonOutput = $("#output").text(); // Get the JSON text
+            if (!jsonOutput.trim()) {
+                alert("No JSON data to copy. Generate JSON first.");
+                return;
+            }
+
+            navigator.clipboard.writeText(jsonOutput).then(() => {
+                alert("JSON copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy JSON:", err);
+                alert("Failed to copy JSON. Check browser permissions.");
+            });
+        }
+
+                function downloadJSON() {
+            const jsonOutput = $("#output").text();
+            const blob = new Blob([jsonOutput], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "sentinelone_ioc.json";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }  
+
+                function clearForm() {
+            // Clear all input, select, and textarea fields
+            $("input, select, textarea").val("");
+
+            // Reset dropdowns to first option
+            $("select").prop("selectedIndex", 0);
+
+            // Clear the generated JSON output
+            $("#output").text("JSON will appear here...");
+        }
+
+
+        $("#submitWebhook").click(function() {
+            const proxyServerURL = "http://localhost:5000/submit";
+            let jsonData = $("#output").text();
+
+            if (!jsonData.trim()) {
+                alert("No JSON data to submit. Generate JSON first.");
+                return;
+            }
+
+            $.ajax({
+                url: proxyServerURL,
+                type: "POST",
+                contentType: "application/json",
+                data: jsonData,
+                success: function(response) {
+                    alert("Webhook submitted successfully!");
+                    console.log("Response:", response);
+                },
+                error: function(xhr, status, error) {
+                    alert("Error submitting webhook. Check console for details.");
+                    console.error("Error:", xhr.responseText);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
