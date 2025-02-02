@@ -48,7 +48,7 @@ Click Copy JSON to copy the generated output to the clipboard.
 
 5️⃣ Submit to Webhook
 
-Click Submit to Webhook to send the JSON directly to the SentinelOne API via a Flask proxy server.
+Click Submit to Webhook to send the JSON directly to the SentinelOne API via a Flask proxy server. In order to receive the data to a webhook you will need to use the hyper automation feature and setup a webhook to  receive and send data to the API. Altertanely you can edit this to send dirctly to the API with your Site ID but you will need to adjust the code as necessary.
 
 
 Technical Details
