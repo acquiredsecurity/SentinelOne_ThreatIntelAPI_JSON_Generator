@@ -1,6 +1,8 @@
 # SentinelOne_ThreatIntelAPI_JSON_Generator
 The SentinelOne IOC JSON Generator is a web-based tool that allows users to manually input Indicators of Compromise (IOCs) and generate properly formatted JSON data for use with the SentinelOne API. It supports one or more entries, a structured optional fields section, and a built-in webhook submission feature for direct API integration.
 
+<img width="803" alt="image" src="https://github.com/user-attachments/assets/8082446f-7a84-43df-855c-4dba2c429086" />
+
 
 Features
 ✅ Supports Various IOC Types (DNS, IPV4, IPV6, MD5, SHA1, SHA256, URL)
