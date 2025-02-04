@@ -45,8 +45,7 @@ Click "Show/Hide Optional Fields" to enter additional data
 (e.g., severity, threat actors, risk score, category, etc.)  
 
 3️⃣ API Filtering (Optional)  
-Click "API Submission" to enable direct API filtering.  
-Enter Site IDs, Account IDs, Group IDs, or Tenant scope for targeted submissions. 
+Click "API Submission" to enable direct API filtering. The filter fields are handled in the webhook so they are not needed for webhook submissions. Enter Site IDs, Account IDs, Group IDs, or Tenant scope for targeted submissions. 
 
 4️⃣ Generate JSON  
 Click "Generate JSON" to format input into a valid JSON object.  
