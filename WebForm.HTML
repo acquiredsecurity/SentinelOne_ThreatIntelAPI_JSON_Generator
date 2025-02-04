@@ -126,13 +126,42 @@
         <label for="source">Source <span class="required">*</span>:</label>
         <input type="text" id="source">
 
-        <div class="optional-fields-button">
+        <div class="button-container">
             <button type="button" onclick="toggleOptionalFields()">Show/Hide Optional Fields</button>
+            <button type="button" onclick="toggleDirectAPIFields()">Configure API Submission</button>
         </div>
+        
+        
 
         <div id="optionalFields">
+            
+            <div id="directAPIFields" style="display: none;">
+                <h4 class="optional-fields-title">Direct API Submission Fields</h4>
+            
+                <label for="accountIds">Account IDs:</label>
+                <textarea id="accountIds" rows="2" placeholder="Enter Account IDs, one per line"></textarea>
+            
+                <label for="groupIds">Group IDs:</label>
+                <textarea id="groupIds" rows="2" placeholder="Enter Group IDs, one per line"></textarea>
+            
+                <label for="siteIds">Site IDs:</label>
+                <textarea id="siteIds" rows="2" placeholder="Enter Site IDs, one per line"></textarea>
+            
+                <label for="tenant">Tenant Scope:</label>
+                <select id="tenant">
+                    <option value="">Select Option</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+            
+            
             <h4 class="optional-fields-title">Optional Fields</h4>
             
+
+
+
+
             <label for="severity">Severity (1-7):</label>
             <select id="severity">
                 <option value="">Select Severity</option>
@@ -217,19 +246,30 @@
     <pre id="output">JSON will appear here...</pre>
 
     <button id="submitWebhook">Submit to Webhook</button>
+    <button id="submitAPI">Submit to API</button>
 
     <script>
+
+        function toggleDirectAPIFields() {
+            let apiFieldsVisible = $("#directAPIFields").is(":visible");
+
+            // Toggle both API Fields and Optional Fields together
+            $("#directAPIFields").toggle();
+            $("#optionalFields").toggle(!apiFieldsVisible); // Ensure both are synced
+        }
+
+
+
         function toggleOptionalFields() {
             $("#optionalFields").toggle();
         }
 
         function generateJSON() {
     let iocs = [];
-    
     let commonFields = {};
     let missingFields = [];
 
-    $("input, select, textarea").each(function() {
+    $("input, select, textarea").each(function () {
         let key = $(this).attr("id");
         let value = $(this).val().trim();
 
@@ -243,7 +283,6 @@
                 return;
             }
         }
-
 
         // Ensure required fields are not empty
         if ((key === "type" || key === "source") && value === "") {
@@ -278,12 +317,41 @@
     // Always process multiple values
     let values = $("#valueMulti").val().trim().split(/\r?\n/).map(v => v.trim()).filter(v => v);
     values.forEach(value => {
-        iocs.push({ ...commonFields, "value": value });
+    let iocEntry = { ...commonFields, "value": value };
+
+    // Remove siteIds from the data array (it belongs only in "filter")
+    delete iocEntry.siteIds;  
+
+    iocs.push(iocEntry);
+});
+
+    // Create Direct API Submission Filter (ONLY if fields are provided)
+    let directAPIFilters = {};
+    let filterFields = ["accountIds", "groupIds", "siteIds", "tenant"];
+
+    filterFields.forEach(field => {
+        let fieldValue = $("#" + field).val().trim();
+        if (fieldValue) {
+            if (field === "tenant") {
+                directAPIFilters[field] = fieldValue === "true"; // Convert string to boolean
+            } else {
+                directAPIFilters[field] = fieldValue.split(/\r?\n/).map(v => v.trim()).filter(v => v);
+            }
+        }
     });
 
-    $("#output").text(JSON.stringify(iocs, null, 4));
-}
+    let finalJSON = {};
 
+    // Only add "filter" key if at least one filter field is filled
+    if (Object.keys(directAPIFilters).length > 0) {
+        finalJSON["filter"] = directAPIFilters;
+    }
+
+    // Add IOC data
+    finalJSON["data"] = iocs;
+
+    $("#output").text(JSON.stringify(finalJSON, null, 4));
+}
 
 
         function copyJSON() {
@@ -348,6 +416,51 @@
                 }
             });
         });
+
+
+        // submitAPI function 
+
+        $("#submitAPI").click(function () {
+    const proxyServerURL = "http://localhost:5000/submit";
+    let jsonData = $("#output").text();
+
+    if (!jsonData.trim()) {
+        alert("No JSON data to submit. Generate JSON first.");
+        return;
+    }
+
+    console.log("JSON Data Before Submission:", jsonData); // Debugging log
+
+    try {
+        jsonData = JSON.parse(jsonData);
+    } catch (e) {
+        alert("Invalid JSON format. Please generate valid JSON.");
+        return;
+    }
+
+    console.log("Parsed JSON Data:", jsonData); // Debugging log
+
+    $.ajax({
+        url: proxyServerURL,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            jsonData: jsonData,
+            submissionType: "sentinelone"
+        }),
+        success: function (response) {
+            alert("JSON submitted successfully to SentinelOne API!");
+            console.log("Response:", response);
+        },
+        error: function (xhr, status, error) {
+            alert("Error submitting to SentinelOne API. Check console for details.");
+            console.error("Error:", xhr.responseText);
+        }
+    });
+});
+
+        
+
     </script>
 
 </body>
