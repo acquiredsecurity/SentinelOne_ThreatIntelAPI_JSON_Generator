@@ -39,18 +39,23 @@ Installation & Setup (For Webhook Submission) Python Flask Server
 Select an IOC Type (DNS, IPV4, MD5, etc.)  
 Enter IOC values, source, and other relevant details  
 Choose multiple entries (one per line)  
+
 2️⃣ Optional Fields  
 Click "Show/Hide Optional Fields" to enter additional data  
 (e.g., severity, threat actors, risk score, category, etc.)  
+
 3️⃣ API Filtering (Optional)  
 Click "API Submission" to enable direct API filtering.  
-Enter Site IDs, Account IDs, Group IDs, or Tenant scope for targeted submissions.  
+Enter Site IDs, Account IDs, Group IDs, or Tenant scope for targeted submissions. 
+
 4️⃣ Generate JSON  
 Click "Generate JSON" to format input into a valid JSON object.  
 JSON is automatically formatted for SentinelOne API compliance.  
+
 5️⃣ Download or Copy JSON  
 Click "Download JSON" to save the file.  
 Click "Copy JSON" to copy the JSON output to the clipboard.  
+
 6️⃣ Submit JSON  
 "Submit to Webhook" → Sends JSON via the SentinelOne HyperAutomation Webhook API.  
 "Submit to API" → Sends JSON directly to SentinelOne Threat Intelligence API.  
@@ -61,11 +66,11 @@ Click "Copy JSON" to copy the JSON output to the clipboard.
 
 
 Technical Details
-Built with HTML, CSS, JavaScript, and jQuery
-Uses Flask (Python) as a proxy for API submissions
-Ensures field validation & API-compliant formatting
-Contributing & Support
-If you encounter any issues or need enhancements, feel free to modify the source code or report a problem.
+Built with HTML, CSS, JavaScript, and jQuery  
+Uses Flask (Python) as a proxy for API submissions  
+Ensures field validation & API-compliant formatting  
+Contributing & Support  
+If you encounter any issues or need enhancements, feel free to modify the source code or report a problem.  
 
-🚀 Enjoy using the SentinelOne IOC JSON Generator! 🚀
+🚀 Enjoy using the SentinelOne IOC JSON Generator! 🚀  
 
