@@ -294,9 +294,10 @@
             value = value.toUpperCase();
         }
 
-        if (value && key !== "valueMulti" && key !== "csvFile") {
+        if (value && key !== "valueMulti" && key !== "csvFile" && key !== "accountIds") {
             commonFields[key] = value;
         }
+
     });
 
     // If required fields are missing, show an alert and stop JSON generation
