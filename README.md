@@ -1,7 +1,8 @@
 # SentinelOne_ThreatIntelAPI_JSON_Generator
-The SentinelOne IOC JSON Generator is a web-based tool that allows users to manually input Indicators of Compromise (IOCs) and generate properly formatted JSON data for use with the SentinelOne API. It supports one or more entries, a structured optional fields section, and a built-in webhook submission feature for direct API integration.
+The SentinelOne IOC JSON Generator is a web-based tool that allows users to manually input Indicators of Compromise (IOCs) and generate properly formatted JSON data for use with the SentinelOne API. It supports one or more entries, a structured optional fields section, and a built-in webhook submission feature for to submit via a Webhook with Hyper Automation or directly to the SentienlOne API.
 
-<img width="803" alt="image" src="https://github.com/user-attachments/assets/8082446f-7a84-43df-855c-4dba2c429086" />
+<img width="583" alt="image" src="https://github.com/user-attachments/assets/8ecd6e40-45ba-4d5a-b5f2-718cb8fd059e" />
+
 
 
 Features
@@ -12,8 +13,9 @@ Features
 ✅ Ensures Proper Capitalization (IOC Type remains uppercase for API compatibility)
 ✅ Download JSON or Copy to Clipboard (Save or copy generated JSON instantly)
 ✅ Submit to Webhook (Sends generated JSON directly to the configured SentinelOne API Webhook in HyperAutomation)
+✅ Submit directly to API (Sends generated JSON directly to the configured SentinelOne API)
 
-Dependencies and Setup
+**Dependencies and Setup**
 Installation & Setup (For Webhook Submission) Python Flask Server
 
 1️ Install Python and required dependencies. Please fefer to the pythong guide to install Python 3 for your OS. Once Python is installed run the following command to ensure flask is installed. 
@@ -21,36 +23,41 @@ Installation & Setup (For Webhook Submission) Python Flask Server
 
 
 2 Ensure the webhook endpoint is correctly configured in proxy_server.py.
-                Update the URL in the file python proxy_server to match your webhook URL on line # 9 SENTINELONE_WEBHOOK_URL = "Enter your URL Here"
+                Update the following Variables in the file:
+                          SENTINELONE_API_URL = "https://<your URL>/web/api/v2.1/threat-intelligence/iocs"
+                          SENTINELONE_API_KEY = "<API Key>"
+                          WEBHOOK_URL = "<Webhook URL>"
 
 3 Run the Flask proxy server:
                 python3 proxy_server.py
 
 
-How to Use the Webform
 
-1️⃣ Enter IOC details manually
-
+***************************
+💡 How to Use the Webform
+1️⃣ Enter IOC Details Manually
 Select an IOC Type (DNS, IPV4, MD5, etc.)
-Choose Single Entry or Multiple Entries
 Enter IOC values, source, and other relevant details
-
+Choose multiple entries (one per line)
 2️⃣ Optional Fields
+Click "Show/Hide Optional Fields" to enter additional data
+(e.g., severity, threat actors, risk score, category, etc.)
+3️⃣ API Filtering (Optional)
+Click "API Submission" to enable direct API filtering.
+Enter Site IDs, Account IDs, Group IDs, or Tenant scope for targeted submissions.
+4️⃣ Generate JSON
+Click "Generate JSON" to format input into a valid JSON object.
+JSON is automatically formatted for SentinelOne API compliance.
+5️⃣ Download or Copy JSON
+Click "Download JSON" to save the file.
+Click "Copy JSON" to copy the JSON output to the clipboard.
+6️⃣ Submit JSON
+"Submit to Webhook" → Sends JSON via the SentinelOne HyperAutomation Webhook API.
+"Submit to API" → Sends JSON directly to SentinelOne Threat Intelligence API.
 
-Click Show/Hide Optional Fields to enter additional data (e.g., severity, threat actors, risk score).
+******************
 
-3️⃣ Generate JSON
 
-Click Generate JSON to format the input as a valid JSON object.
-
-4️⃣ Download or Copy JSON
-
-Click Download JSON to save the file.
-Click Copy JSON to copy the generated output to the clipboard.
-
-5️⃣ Submit to Webhook
-
-Click Submit to Webhook to send the JSON directly to the SentinelOne API via a Flask proxy server. In order to receive the data to a webhook you will need to use the hyper automation feature and setup a webhook to  receive and send data to the API. Altertanely you can edit this to send dirctly to the API with your Site ID but you will need to adjust the code as necessary.
 
 
 Technical Details
