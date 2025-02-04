@@ -127,115 +127,110 @@
         <input type="text" id="source">
 
         <div class="button-container">
+            <button type="button" onclick="toggleDirectAPIFields()">Configure for API Submission</button>
             <button type="button" onclick="toggleOptionalFields()">Show/Hide Optional Fields</button>
-            <button type="button" onclick="toggleDirectAPIFields()">Configure API Submission</button>
+            
         </div>
-        
-        
 
-        <div id="optionalFields">
-            
-            <div id="directAPIFields" style="display: none;">
-                <h4 class="optional-fields-title">Direct API Submission Fields</h4>
-            
-                <label for="accountIds">Account IDs:</label>
-                <textarea id="accountIds" rows="2" placeholder="Enter Account IDs, one per line"></textarea>
-            
-                <label for="groupIds">Group IDs:</label>
-                <textarea id="groupIds" rows="2" placeholder="Enter Group IDs, one per line"></textarea>
-            
-                <label for="siteIds">Site IDs:</label>
-                <textarea id="siteIds" rows="2" placeholder="Enter Site IDs, one per line"></textarea>
-            
-                <label for="tenant">Tenant Scope:</label>
-                <select id="tenant">
-                    <option value="">Select Option</option>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
+        <!-- API Submission Fields Section (Separate from Optional Fields) -->
+<div id="apiSubmissionFields" style="display: none;">
+    <h4 class="optional-fields-title">API Submission Fields</h4>
+
+    <label for="accountIds">Account IDs:</label>
+    <textarea id="accountIds" rows="2" placeholder="Enter Account IDs, one per line"></textarea>
+
+    <label for="groupIds">Group IDs:</label>
+    <textarea id="groupIds" rows="2" placeholder="Enter Group IDs, one per line"></textarea>
+
+    <label for="siteIds">Site IDs:</label>
+    <textarea id="siteIds" rows="2" placeholder="Enter Site IDs, one per line"></textarea>
+
+    <label for="tenant">Tenant Scope:</label>
+    <select id="tenant">
+        <option value="">Select Option</option>
+        <option value="true">True</option>
+        <option value="false">False</option>
+    </select>
+</div>
+
+            <!-- Optional Fields Section (Independent from API Fields) -->
+            <div id="optionalFields" style="display: none;">
+                <h4 class="optional-fields-title">Optional Fields</h4>
+
+                <label for="severity">Severity (1-7):</label>
+                <select id="severity">
+                    <option value="">Select Severity</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
                 </select>
+
+                <label for="campaignNames">Campaign Names:</label>
+                <input type="text" id="campaignNames">
+
+                <label for="category">Category:</label>
+                <input type="text" id="category">
+
+                <label for="creationTime">Creation Time (YYYY-MM-DDTHH:MM:SSZ):</label>
+                <input type="datetime-local" id="creationTime" min="2000-01-01T00:00" max="2099-12-31T23:59">
+
+                <label for="creator">Creator:</label>
+                <input type="text" id="creator">
+        
+                <label for="description">Description:</label>
+                <textarea id="description"></textarea>
+
+                <label for="externalId">External ID:</label>
+                <input type="text" id="externalId">
+
+                <label for="intrusionSets">Intrusion Sets:</label>
+                <input type="text" id="intrusionSets">
+
+                <label for="labels">Labels:</label>
+                <input type="text" id="labels">
+
+                <label for="malwareNames">Malware Names:</label>
+                <input type="text" id="malwareNames">
+
+                <label for="metadata">Metadata:</label>
+                <input type="text" id="metadata">
+
+                <label for="method">Method:</label>
+                <input type="text" id="method">
+
+                <label for="mitreTactic">MITRE Tactic:</label>
+                <input type="text" id="mitreTactic">
+
+                <label for="name">Name:</label>
+                <input type="text" id="name">
+
+                <label for="originalRiskScore">Original Risk Score (0-100):</label>
+                <input type="number" id="originalRiskScore" min="0" max="100">
+
+                <label for="pattern">Pattern:</label>
+                <input type="text" id="pattern">
+
+                <label for="patternType">Pattern Type:</label>
+                <input type="text" id="patternType">
+
+                <label for="reference">Reference:</label>
+                <input type="text" id="reference">
+
+                <label for="threatActors">Threat Actors:</label>
+                <input type="text" id="threatActors">
+
+                <label for="threatActorTypes">Threat Actor Types:</label>
+                <input type="text" id="threatActorTypes">
+
+                <label for="validUntil">Valid Until (YYYY-MM-DDTHH:MM:SSZ):</label>
+                <input type="datetime-local" id="validUntil" min="2000-01-01T00:00" max="2099-12-31T23:59">
             </div>
-            
-            
-            <h4 class="optional-fields-title">Optional Fields</h4>
-            
-
-
-
-
-            <label for="severity">Severity (1-7):</label>
-            <select id="severity">
-                <option value="">Select Severity</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-            </select>
-
-            <label for="campaignNames">Campaign Names:</label>
-            <input type="text" id="campaignNames">
-
-            <label for="category">Category:</label>
-            <input type="text" id="category">
-
-            <label for="creationTime">Creation Time (YYYY-MM-DDTHH:MM:SSZ):</label>
-            <input type="datetime-local" id="creationTime" min="2000-01-01T00:00" max="2099-12-31T23:59">
-            
-
-            <label for="creator">Creator:</label>
-            <input type="text" id="creator">
-
-            <label for="description">Description:</label>
-            <textarea id="description"></textarea>
-
-            <label for="externalId">External ID:</label>
-            <input type="text" id="externalId">
-
-            <label for="intrusionSets">Intrusion Sets:</label>
-            <input type="text" id="intrusionSets">
-
-            <label for="labels">Labels:</label>
-            <input type="text" id="labels">
-
-            <label for="malwareNames">Malware Names:</label>
-            <input type="text" id="malwareNames">
-
-            <label for="metadata">Metadata:</label>
-            <input type="text" id="metadata">
-
-            <label for="method">Method:</label>
-            <input type="text" id="method">
-
-            <label for="mitreTactic">MITRE Tactic:</label>
-            <input type="text" id="mitreTactic">
-
-            <label for="name">Name:</label>
-            <input type="text" id="name">
-
-            <label for="originalRiskScore">Original Risk Score (0-100):</label>
-            <input type="number" id="originalRiskScore" min="0" max="100">
-
-            <label for="pattern">Pattern:</label>
-            <input type="text" id="pattern">
-
-            <label for="patternType">Pattern Type:</label>
-            <input type="text" id="patternType">
-
-            <label for="reference">Reference:</label>
-            <input type="text" id="reference">
-
-            <label for="threatActors">Threat Actors:</label>
-            <input type="text" id="threatActors">
-
-            <label for="threatActorTypes">Threat Actor Types:</label>
-            <input type="text" id="threatActorTypes">
-
-            <label for="validUntil">Valid Until (YYYY-MM-DDTHH:MM:SSZ):</label>
-            <input type="datetime-local" id="validUntil" min="2000-01-01T00:00" max="2099-12-31T23:59">
+            </div>
         </div>
-    </div>
 
     <button onclick="generateJSON()">Generate JSON</button>
     <button onclick="copyJSON()">Copy JSON</button>
@@ -250,18 +245,14 @@
 
     <script>
 
-        function toggleDirectAPIFields() {
-            let apiFieldsVisible = $("#directAPIFields").is(":visible");
-
-            // Toggle both API Fields and Optional Fields together
-            $("#directAPIFields").toggle();
-            $("#optionalFields").toggle(!apiFieldsVisible); // Ensure both are synced
-        }
-
-
-
+        // Toggle Optional Fields Independently
         function toggleOptionalFields() {
             $("#optionalFields").toggle();
+        }
+
+        // Toggle API Submission Fields Independently
+        function toggleDirectAPIFields() {
+            $("#apiSubmissionFields").toggle();
         }
 
         function generateJSON() {
@@ -391,8 +382,9 @@
             $("#output").text("JSON will appear here...");
         }
 
+            // Submit to Webhook Function
 
-        $("#submitWebhook").click(function() {
+                $("#submitWebhook").click(function () {
             const proxyServerURL = "http://localhost:5000/submit";
             let jsonData = $("#output").text();
 
@@ -401,21 +393,36 @@
                 return;
             }
 
+            console.log("JSON Data Before Sending:", jsonData); // Debugging Log
+
+            try {
+                jsonData = JSON.parse(jsonData); // Ensure JSON is valid before sending
+            } catch (e) {
+                alert("Invalid JSON format. Please generate valid JSON.");
+                return;
+            }
+
+            console.log("Parsed JSON Data:", jsonData); // Debugging Log
+
             $.ajax({
                 url: proxyServerURL,
                 type: "POST",
                 contentType: "application/json",
-                data: jsonData,
-                success: function(response) {
-                    alert("Webhook submitted successfully!");
+                data: JSON.stringify({
+                    jsonData: jsonData,  // 🚨 Confirm if this is properly structured
+                    submissionType: "webhook"
+                }),
+                success: function (response) {
+                    alert("JSON submitted successfully to Webhook!");
                     console.log("Response:", response);
                 },
-                error: function(xhr, status, error) {
-                    alert("Error submitting webhook. Check console for details.");
+                error: function (xhr, status, error) {
+                    alert("Error submitting to Webhook. Check console for details.");
                     console.error("Error:", xhr.responseText);
                 }
             });
         });
+
 
 
         // submitAPI function 
