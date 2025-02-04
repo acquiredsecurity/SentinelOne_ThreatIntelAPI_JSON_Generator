@@ -294,9 +294,10 @@
             value = value.toUpperCase();
         }
 
-        if (value && key !== "valueMulti" && key !== "csvFile" && key !== "accountIds") {
+        if (value && key !== "valueMulti" && key !== "csvFile" && key !== "accountIds" && key !== "groupIds" && key !== "tenant" && key !== "siteIds") {
             commonFields[key] = value;
         }
+
 
     });
 
