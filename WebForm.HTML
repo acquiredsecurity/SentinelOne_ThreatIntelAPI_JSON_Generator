@@ -385,45 +385,43 @@
         }
 
             // Submit to Webhook Function
+            $("#submitWebhook").click(function () {
+    const proxyServerURL = "http://localhost:5000/submit";
+    let jsonData = $("#output").text();
 
-                $("#submitWebhook").click(function () {
-            const proxyServerURL = "http://localhost:5000/submit";
-            let jsonData = $("#output").text();
+    if (!jsonData.trim()) {
+        alert("No JSON data to submit. Generate JSON first.");
+        return;
+    }
 
-            if (!jsonData.trim()) {
-                alert("No JSON data to submit. Generate JSON first.");
-                return;
-            }
+    console.log("JSON Data Before Sending:", jsonData); // Debugging Log
 
-            console.log("JSON Data Before Sending:", jsonData); // Debugging Log
+    try {
+        jsonData = JSON.parse(jsonData); // Ensure JSON is valid before sending
+    } catch (e) {
+        alert("Invalid JSON format. Please generate valid JSON.");
+        return;
+    }
 
-            try {
-                jsonData = JSON.parse(jsonData); // Ensure JSON is valid before sending
-            } catch (e) {
-                alert("Invalid JSON format. Please generate valid JSON.");
-                return;
-            }
+    console.log("Parsed JSON Data:", jsonData); // Debugging Log
 
-            console.log("Parsed JSON Data:", jsonData); // Debugging Log
+    $.ajax({
+        url: proxyServerURL,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ jsonData: jsonData }),  // 🚀 Wrap jsonData inside an object
+        success: function (response) {
+            alert("JSON submitted successfully to Webhook!");
+            console.log("Response:", response);
+        },
+        error: function (xhr, status, error) {
+            alert("Error submitting to Webhook. Check console for details.");
+            console.error("Error:", xhr.responseText);
+        }
+    });
+});
 
-            $.ajax({
-                url: proxyServerURL,
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    jsonData: jsonData,  // 🚨 Confirm if this is properly structured
-                    submissionType: "webhook"
-                }),
-                success: function (response) {
-                    alert("JSON submitted successfully to Webhook!");
-                    console.log("Response:", response);
-                },
-                error: function (xhr, status, error) {
-                    alert("Error submitting to Webhook. Check console for details.");
-                    console.error("Error:", xhr.responseText);
-                }
-            });
-        });
+
 
 
 
