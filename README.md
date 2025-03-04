@@ -18,7 +18,7 @@ Features
 **Dependencies and Setup**  
 Installation & Setup (For Webhook Submission) Python Flask Server  
 
-1️ Install Python and required dependencies. Please fefer to the pythong guide to install Python 3 for your OS. Once Python is installed run the following command to ensure flask is installed.   
+1️ Install Python and required dependencies. Please refer to the python guide to install Python 3 for your OS. Once Python is installed run the following command to ensure flask is installed.   
                 pip install flask  
 
 
